@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.Customer; import application.domain.ports.out.CustomerRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryCustomerAdapter implements CustomerRepositoryPort { private final Map<String,Customer> data=new ConcurrentHashMap<>(); public Customer save(Customer c){data.put(c.getId(),c);return c;} public Optional<Customer> findById(String id){return Optional.ofNullable(data.get(id));} public Optional<Customer> findByEmail(String e){return data.values().stream().filter(c->c.getEmail().equalsIgnoreCase(e)).findFirst();} public List<Customer> findAll(){return List.copyOf(data.values());} public void update(Customer c){data.put(c.getId(),c);} }

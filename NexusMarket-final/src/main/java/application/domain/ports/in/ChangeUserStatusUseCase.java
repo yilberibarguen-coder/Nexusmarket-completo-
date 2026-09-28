@@ -1,0 +1,7 @@
+package application.domain.ports.in;
+    import application.domain.model.*;
+import java.math.BigDecimal;
+import java.util.List;
+    public interface ChangeUserStatusUseCase {
+        User changeUserStatus(User actor, String userId, application.domain.enums.UserStatus status);
+    }

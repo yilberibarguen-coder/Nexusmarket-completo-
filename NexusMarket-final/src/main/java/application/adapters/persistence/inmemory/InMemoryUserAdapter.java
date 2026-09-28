@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.User; import application.domain.ports.out.UserRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryUserAdapter implements UserRepositoryPort { private final Map<String,User> data=new ConcurrentHashMap<>(); public User save(User u){data.put(u.getId(),u);return u;} public Optional<User> findById(String id){return Optional.ofNullable(data.get(id));} public Optional<User> findByUsername(String x){return data.values().stream().filter(u->u.getUsername().equalsIgnoreCase(x)).findFirst();} public List<User> findAll(){return List.copyOf(data.values());} public void update(User u){data.put(u.getId(),u);} }

@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.OrderRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryOrderAdapter implements OrderRepositoryPort {private final Map<String,Order> data=new ConcurrentHashMap<>();public Order save(Order o){data.put(o.getId(),o);return o;}public Optional<Order> findById(String id){return Optional.ofNullable(data.get(id));}public List<Order> findByCustomer(Customer c){return data.values().stream().filter(o->o.getCustomer().getId().equals(c.getId())).toList();}public void update(Order o){data.put(o.getId(),o);}}

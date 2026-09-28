@@ -1,0 +1,5 @@
+package application.domain.services.inventory;
+import application.domain.model.*; import application.domain.ports.in.*; import application.domain.ports.out.*; import application.domain.services.ServiceSupport; import application.domain.exceptions.*; import java.util.*;
+public class CreateInventoryService implements CreateInventoryUseCase { private final InventoryRepositoryPort inventories; private final ProductRepositoryPort products; private final OperationAuditPort audit; public CreateInventoryService(InventoryRepositoryPort i,ProductRepositoryPort p,OperationAuditPort a){inventories=i;products=p;audit=a;}
+ public Inventory createInventory(User actor,Inventory inv){ServiceSupport.role(actor,"SELLER","ADMIN");if(inv.getProduct()==null||products.findById(inv.getProduct().getId()).isEmpty())throw new NotFoundException("Product",inv.getProduct()==null?"null":inv.getProduct().getId());if(inventories.findByProduct(inv.getProduct()).isPresent())throw new ConflictException("Inventory already exists");Inventory saved=inventories.save(inv);audit.record(actor,"CREATE_INVENTORY",saved.getProduct().getId(),Map.of("available",saved.getAvailable()));return saved;}
+}

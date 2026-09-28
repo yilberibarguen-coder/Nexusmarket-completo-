@@ -1,0 +1,5 @@
+package application.domain.services.fulfillment;
+import application.domain.model.*; import application.domain.ports.in.*; import application.domain.ports.out.*; import application.domain.services.ServiceSupport; import application.domain.exceptions.*; import java.util.*;
+public class ApproveReturnService implements ApproveReturnUseCase { private final ReturnRequestRepositoryPort returns; private final OrderRepositoryPort orders; private final OperationAuditPort audit; public ApproveReturnService(ReturnRequestRepositoryPort r,OrderRepositoryPort o,OperationAuditPort a){returns=r;orders=o;audit=a;}
+ public ReturnRequest approveReturn(User actor,String rid,boolean approve){ServiceSupport.role(actor,"ADMIN","EMPLOYEE");ReturnRequest r=ServiceSupport.required(returns.findById(rid),"ReturnRequest",rid);if(approve)r.approve();else r.reject();returns.update(r);if(approve)r.getOrder().changeStatus(DomainTypes.OrderStatus.RETURNED);orders.update(r.getOrder());audit.record(actor,"APPROVE_RETURN",rid,Map.of("approved",approve));return r;}
+}

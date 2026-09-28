@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.Category; import application.domain.ports.out.CategoryRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryCategoryAdapter implements CategoryRepositoryPort {private final Map<String,Category> data=new ConcurrentHashMap<>();public Category save(Category c){data.put(c.getId(),c);return c;}public Optional<Category> findById(String id){return Optional.ofNullable(data.get(id));}public List<Category> findAll(){return List.copyOf(data.values());}public void update(Category c){data.put(c.getId(),c);}}

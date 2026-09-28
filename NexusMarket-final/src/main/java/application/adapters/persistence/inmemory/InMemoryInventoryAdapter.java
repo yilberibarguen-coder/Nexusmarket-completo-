@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.InventoryRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryInventoryAdapter implements InventoryRepositoryPort {private final Map<String,Inventory> data=new ConcurrentHashMap<>();public Inventory save(Inventory i){data.put(i.getProduct().getId(),i);return i;}public Optional<Inventory> findByProduct(Product p){return Optional.ofNullable(data.get(p.getId()));}public Optional<Inventory> findById(String id){return data.values().stream().filter(i->id.equals(i.getProduct().getId())).findFirst();}public void update(Inventory i){data.put(i.getProduct().getId(),i);}}

@@ -1,0 +1,2 @@
+package application.domain.model;
+public abstract class Person { protected final String id; protected String name; protected String email; protected String phone; protected DomainTypes.Status status = DomainTypes.Status.ACTIVE; protected Person(String id,String name,String email,String phone){this.id=id;this.name=name;this.email=email;this.phone=phone;} public String getId(){return id;} public String getEmail(){return email;} public DomainTypes.Status getStatus(){return status;} public void changeStatus(DomainTypes.Status s){this.status=s;} }

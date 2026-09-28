@@ -1,0 +1,3 @@
+package application.domain.services.order;
+import application.domain.model.*; import application.domain.ports.in.*; import application.domain.ports.out.*; import application.domain.services.ServiceSupport; import java.math.*;
+public class CalculateOrderTotalService implements CalculateOrderTotalUseCase { private final OrderRepositoryPort orders; public CalculateOrderTotalService(OrderRepositoryPort o){orders=o;} public BigDecimal calculateOrderTotal(User actor,String id){Order o=ServiceSupport.required(orders.findById(id),"Order",id);ServiceSupport.sameCustomer(actor,o.getCustomer());return o.calculateTotal();}}

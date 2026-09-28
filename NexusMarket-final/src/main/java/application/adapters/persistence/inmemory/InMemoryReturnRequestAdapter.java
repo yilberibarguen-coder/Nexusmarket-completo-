@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.ReturnRequestRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryReturnRequestAdapter implements ReturnRequestRepositoryPort {private final Map<String,ReturnRequest> data=new ConcurrentHashMap<>();public ReturnRequest save(ReturnRequest r){data.put(r.getId(),r);return r;}public Optional<ReturnRequest> findById(String id){return Optional.ofNullable(data.get(id));}public List<ReturnRequest> findByOrder(Order o){return data.values().stream().filter(r->r.getOrder().getId().equals(o.getId())).toList();}public void update(ReturnRequest r){data.put(r.getId(),r);}}

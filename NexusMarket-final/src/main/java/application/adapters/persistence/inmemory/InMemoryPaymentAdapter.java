@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.PaymentRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryPaymentAdapter implements PaymentRepositoryPort {private final Map<String,Payment> data=new ConcurrentHashMap<>();public Payment save(Payment p){data.put(p.getId(),p);return p;}public Optional<Payment> findById(String id){return Optional.ofNullable(data.get(id));}public List<Payment> findByOrder(Order o){return data.values().stream().filter(p->p.getOrder().getId().equals(o.getId())).toList();}public void update(Payment p){data.put(p.getId(),p);}}

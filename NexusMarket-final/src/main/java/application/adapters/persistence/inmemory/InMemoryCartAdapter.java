@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.CartRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryCartAdapter implements CartRepositoryPort {private final Map<String,Cart> data=new ConcurrentHashMap<>();public Cart save(Cart c){data.put(c.getId(),c);return c;}public Optional<Cart> findActiveByCustomer(Customer c){return data.values().stream().filter(x->x.getOwner().getId().equals(c.getId())).findFirst();}public Optional<Cart> findById(String id){return Optional.ofNullable(data.get(id));}public void update(Cart c){data.put(c.getId(),c);}}

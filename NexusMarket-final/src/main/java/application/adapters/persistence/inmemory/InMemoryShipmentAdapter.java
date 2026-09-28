@@ -1,0 +1,3 @@
+package application.adapters.persistence.inmemory;
+import application.domain.model.*; import application.domain.ports.out.ShipmentRepositoryPort; import java.util.*; import java.util.concurrent.ConcurrentHashMap;
+public class InMemoryShipmentAdapter implements ShipmentRepositoryPort {private final Map<String,Shipment> data=new ConcurrentHashMap<>();public Shipment save(Shipment s){data.put(s.getId(),s);return s;}public Optional<Shipment> findById(String id){return Optional.ofNullable(data.get(id));}public Optional<Shipment> findByOrder(Order o){return data.values().stream().filter(s->s.getOrder().getId().equals(o.getId())).findFirst();}public void update(Shipment s){data.put(s.getId(),s);}}
